@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - ReBook</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <style>
+    :root {
+      --primary-bg: #FFFFFF;
+      --secondary-bg: #F0F0F0;
+      --primary-text: #1A1A1A;
+      --secondary-text: #666666;
+      --accent-color: #000000;
+      --border-color: #D3D3D3;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--primary-bg);
+      color: var(--primary-text);
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 400px;
+      background-color: var(--secondary-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      color: var(--accent-color);
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--secondary-text);
+      margin-bottom: 8px;
+    }
+
+    input[type="email"], input[type="password"], input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: var(--primary-bg);
+      font-size: 1rem;
+    }
+
+    input:focus {
+      border-color: var(--accent-color);
+      outline: none;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      background-color: var(--accent-color);
+      color: var(--primary-bg);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #333;
+    }
+
+    .alt-link {
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: var(--secondary-text);
+    }
+
+    .alt-link a {
+      color: var(--accent-color);
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .alt-link a:hover {
+      text-decoration: underline;
+    }
+
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="auth-box">
+    <h1 id="form-title">Login to ReBook</h1>
+    <div id="login-form">
+      <div class="form-group">
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" placeholder="you@example.com">
+      </div>
+      <div class="form-group">
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" placeholder="••••••••">
+      </div>
+      <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
+      <button class="btn" onclick="login(event)">Login</button>
+      <p class="alt-link">Don't have an account? <a onclick="switchForm('signup')">Sign up</a></p>
+    </div>
+
+    <div id="signup-form" class="hidden">
+      <div class="form-group">
+        <label for="signup-name">Full Name</label>
+        <input type="text" id="signup-name" placeholder="Jane Doe">
+      </div>
+      <div class="form-group">
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" placeholder="you@example.com">
+      </div>
+      <div class="form-group">
+        <label for="signup-password">Password</label>
+        <input type="password" id="signup-password" placeholder="••••••••">
+      </div>
+      <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
+      <button class="btn" onclick="signup(event)">Sign Up</button>
+      <p class="alt-link">Already have an account? <a onclick="switchForm('login')">Login</a></p>
+    </div>
+  </div>
+
+  <script>
+    function switchForm(type){
+      const loginForm = document.getElementById('login-form');
+      const signupForm = document.getElementById('signup-form');
+      const title = document.getElementById('form-title');
+      if(type === 'signup'){
+        loginForm.classList.add('hidden');
+        signupForm.classList.remove('hidden');
+        title.innerText = 'Sign Up for ReBook';
+      } else {
+        signupForm.classList.add('hidden');
+        loginForm.classList.remove('hidden');
+        title.innerText = 'Login to ReBook';
+      }
+    }
+
+    function login(e){
+      e.preventDefault();
+      const response = grecaptcha.getResponse();
+      if(!response){
+        alert('Please complete the reCAPTCHA');
+        return;
+      }
+      alert('Logged in successfully (demo)!');
+    }
+
+    function signup(e){
+      e.preventDefault();
+      const response = grecaptcha.getResponse();
+      if(!response){
+        alert('Please complete the reCAPTCHA');
+        return;
+      }
+      alert('Signed up successfully (demo)!');
+      switchForm('login');
+    }
+  </script>
+</body>
+</html>
